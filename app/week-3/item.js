@@ -1,11 +1,17 @@
-export default function Item({ name, quantity, category }) {
-    return (
-      <li className="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
-        <h2 className="text-lg font-semibold">{name}</h2>
-        <p>
-          Buy {quantity} in <span className="font-bold">{category}</span>
-        </p>
-      </li>
-    );
-  }
-  
+import React from 'react';
+
+// Define the Item component and accept props (name, quantity, category)
+const Item = (props) => {
+  return (
+    <li className="flex items-center p-4 border rounded-lg shadow-lg bg-white">
+      {/* Use the passed props to display the item details */}
+      <div className="text-5xl mr-4">{props.icon}</div>
+      <div>
+        <h2 className="text-xl font-semibold">{props.name}</h2>
+        <p className="text-gray-600">Buy {props.quantity} in {props.category}</p>
+      </div>
+    </li>
+  );
+};
+
+export default Item;

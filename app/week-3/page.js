@@ -1,4 +1,4 @@
-import ItemList from "C:\cprg306\cprg306-assignments\app\week-3\item-list.js";
+import ItemList from "app\week-3\item-list.js";
 
 export default function Page() {
   return (
