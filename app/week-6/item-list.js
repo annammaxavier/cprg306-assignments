@@ -1,5 +1,5 @@
 // /app/week-6/item-list.js
-"use client"; // This line tells Next.js to treat this as a Client Component
+"use client"; // Ensure this is at the top
 
 import { useState } from 'react';
 import Item from './item';
@@ -18,6 +18,13 @@ export default function ItemList() {
     return 0;
   });
 
+  // Group items by category (only if "Grouped Category" is selected)
+  const groupedItems = itemsData.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
   return (
     <div>
       <h2>Sort by:</h2>
@@ -33,12 +40,32 @@ export default function ItemList() {
       >
         Category
       </button>
+      <button
+        style={{ backgroundColor: sortBy === 'groupedCategory' ? 'lightgray' : 'white' }}
+        onClick={() => setSortBy('groupedCategory')}
+      >
+        Grouped Category
+      </button>
 
-      <ul>
-        {sortedItems.map((item) => (
-          <Item key={item.id} name={item.name} quantity={item.quantity} category={item.category} />
-        ))}
-      </ul>
+      {/* Render sorted or grouped items based on sortBy */}
+      {sortBy === 'groupedCategory' ? (
+        Object.entries(groupedItems).map(([category, items]) => (
+          <div key={category}>
+            <h3>{category.charAt(0).toUpperCase() + category.slice(1)}</h3>
+            <ul>
+              {items.map((item) => (
+                <Item key={item.id} name={item.name} quantity={item.quantity} category={category} />
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <ul>
+          {sortedItems.map((item) => (
+            <Item key={item.id} name={item.name} quantity={item.quantity} category={item.category} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
