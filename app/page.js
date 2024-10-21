@@ -1,9 +1,10 @@
  // /app/page.js
-import NewItem from "./week-5/new-item";
+import ItemList from "./week-6/item-list";
+import NewItem from "./week-6/item-list";
 export default function Page() {
   return (
     <main> 
-      <NewItem />
+      <ItemList />
     </main>
   );
 };
