@@ -1,47 +1,42 @@
-import { useState, useEffect, createContext, useContext } from 'react';
-import { getAuth, signInWithPopup, signOut, GithubAuthProvider } from 'firebase/auth';
-import { auth } from './firebase';  // Assuming you're exporting Firebase auth instance
-
-// Create context for authentication
+"use client";
+ 
+import { useContext, createContext, useState, useEffect } from "react";
+import {
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  GithubAuthProvider,
+} from "firebase/auth";
+import { auth } from "./firebase";
+ 
 const AuthContext = createContext();
-
-// Custom hook to access authentication state
-export const useUserAuth = () => {
-  return useContext(AuthContext);
-};
-
-// AuthProvider component to provide auth state to the app
-export const AuthProvider = ({ children }) => {
+ 
+export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  // Initialize auth state on app load
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(setUser);
-    return () => unsubscribe();
-  }, []);
-
-  // GitHub login
-  const gitHubSignIn = async () => {
+ 
+  const gitHubSignIn = () => {
     const provider = new GithubAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error('GitHub sign-in error:', error);
-    }
+    return signInWithPopup(auth, provider);
   };
-
-  // Firebase logout
-  const firebaseSignOut = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Sign-out error:', error);
-    }
-  }
-
+ 
+  const firebaseSignOut = () => {
+    return signOut(auth);
+  };
+ 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, [user]);
+ 
   return (
     <AuthContext.Provider value={{ user, gitHubSignIn, firebaseSignOut }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
+ 
+export const useUserAuth = () => {
+  return useContext(AuthContext);
+};

@@ -1,31 +1,14 @@
-// week-9/shopping-list/page.js
-"use client";
+"use client"
+import { useUserAuth } from "./week-9/_utils/auth-context";
+import { useRouter } from "next/navigation";
 
-import { useEffect, useState } from "react";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { useRouter } from "next/router";
-import NewItem from './week-9/new-item';  // Import NewItem component
-import ItemList from './week-9/item-list'; // Import ItemList component
-import MealIdeas from './week-9/meal-ideas'; // Import MealIdeas component
-import itemsData from './week-9/items.json'; // Import items data
+import { useState } from 'react';
+import NewItem from 'app\week-9\new-item';  // Import NewItem component
+import ItemList from 'app\week-9\item-list'; // Import ItemList component
+import MealIdeas from 'app\week-9\meal-ideas'; // Import MealIdeas component
+import itemsData from 'app\week-9\items.json'; // Import items data
 
-export default function ShoppingListPage() {
-  const { user } = useUserAuth(); // Access user object
-  const router = useRouter(); // Router hook for navigation
-
-  // If the user is not logged in, redirect to the landing page
-  useEffect(() => {
-    if (!user) {
-      router.push("/"); // Redirect to landing page
-    }
-  }, [user, router]);
-
-  if (!user) {
-    // You can show a loading spinner or message while redirecting
-    return <p>Loading...</p>;
-  }
-
+export default function Page() {
   const [items, setItems] = useState(itemsData);
   const [selectedItemName, setSelectedItemName] = useState('');
 
@@ -34,6 +17,7 @@ export default function ShoppingListPage() {
   };
 
   const handleItemSelect = (itemName) => {
+    // Clean up the item name for the API call
     const cleanItemName = itemName.split(',')[0].trim().replace(/[🥛🍞🥚🍌🥦🍗🍝🧻🧼]/g, ''); 
     setSelectedItemName(cleanItemName);
   };
@@ -48,4 +32,4 @@ export default function ShoppingListPage() {
       </div>
     </main>
   );
-};
+}
