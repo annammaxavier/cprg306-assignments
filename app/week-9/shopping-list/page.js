@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useUserAuth } from "./week-9/_utils/auth-context";
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
