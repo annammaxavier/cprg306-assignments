@@ -16,7 +16,7 @@ export default function ProfilePage() {
       <p>Email: {user.email}</p>
       {user.photoURL && <img src={user.photoURL} alt="Profile" />}
       <p>
-        <a href={user.providerData[0]?.uid ? `https://github.com/${user.providerData[0].uid}` : "#"}>
+        <a href={user.providerData[0]?.uid ? `https://github.com/${user.providerData[0].uid}` : "Ov23liPMsjOZIXkebJqW"}>
           GitHub Profile
         </a>
       </p>
