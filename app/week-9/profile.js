@@ -1,7 +1,7 @@
 // profile.js
 "use client";
 
-import { useUserAuth } from "./_utils/auth-context";
+import { useUserAuth } from "./week-9/_utils/auth-context";
 import Link from "next/link";
 
 export default function ProfilePage() {
@@ -20,7 +20,7 @@ export default function ProfilePage() {
           GitHub Profile
         </a>
       </p>
-      <Link href="/week-9/shopping-list">Go to Shopping List</Link>
+      <Link href="./week-9/shopping-list">Go to Shopping List</Link>
     </div>
   );
-}
+};
