@@ -1,33 +1,33 @@
- "use client";  // Required for React hooks
-import { useState } from 'react';
-import NewItem from './week-8/new-item';  // Import NewItem component
-import ItemList from './week-8/item-list'; // Import ItemList component
-import MealIdeas from './week-8/meal-ideas'; // Import MealIdeas component
-import itemsData from './week-8/items.json'; // Import items data
+// Add the "use client" directive to mark this as a Client Component
+"use client"; 
+import firebase from './week-9/_utils/firebase';
+import { useUserAuth } from './week-9/_utils/auth-context';  // Import useUserAuth hook
+import { useRouter } from 'next/navigation';  // Use next/navigation for useRouter in Client Components
+import { useEffect } from 'react';
 
-export default function Page() {
-  const [items, setItems] = useState(itemsData);
-  const [selectedItemName, setSelectedItemName] = useState('');
+export default function LandingPage() {
+  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth(); // Access user and authentication methods
+  const router = useRouter(); // Router hook for navigation
 
-  const handleAddItem = (newItem) => {
-    setItems((prevItems) => [...prevItems, { ...newItem, id: Math.random().toString(36).substr(2, 9) }]); // Adding unique id
-  };
-
-  const handleItemSelect = (itemName) => {
-    // Clean up the item name for the API call
-    const cleanItemName = itemName.split(',')[0].trim().replace(/[🥛🍞🥚🍌🥦🍗🍝🧻🧼]/g, ''); 
-    setSelectedItemName(cleanItemName);
-  };
+  // If user is logged in, redirect to shopping list page
+  useEffect(() => {
+    if (user) {
+      router.push('/shopping-list');  // Correct way to navigate in Next.js 13+ Client Components
+    }
+  }, [user, router]);
 
   return (
-    <main>
-      <h1>Shopping List</h1>
-      <NewItem onAddItem={handleAddItem} />
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <ItemList items={items} onItemSelect={handleItemSelect} />
-        <MealIdeas ingredient={selectedItemName} />
-      </div>
-    </main>
+    <div>
+      {!user ? (
+        // If no user, show login button
+        <button onClick={gitHubSignIn}>Login with GitHub</button>
+      ) : (
+        // If user is logged in, show welcome message and logout button
+        <div>
+          <p>Welcome, {user.displayName} ({user.email})</p>
+          <button onClick={firebaseSignOut}>Logout</button>
+        </div>
+      )}
+    </div>
   );
-}
-
+};
