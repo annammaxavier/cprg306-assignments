@@ -1,7 +1,6 @@
 "use client"
 import { useUserAuth } from "./week-9/_utils/auth-context";
 import { useRouter } from "next/navigation";
-
 import { useState } from 'react';
 import NewItem from 'app\week-9\new-item';  // Import NewItem component
 import ItemList from 'app\week-9\item-list'; // Import ItemList component
