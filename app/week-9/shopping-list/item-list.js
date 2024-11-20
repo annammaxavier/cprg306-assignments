@@ -1,40 +1,32 @@
-"use client";  // Required to use hooks in Next.js
+"use client";
 import { useState } from "react";
-import Item from "./item";
+import { Item } from "app\week-9\shopping-list\item";
 
-export default function ItemList({ items, onItemSelect }) {
+export function ItemList({ items, onItemSelect }) {
   const [sortBy, setSortBy] = useState("name");
 
-  const sortedItems = [...items].sort((a, b) => {
-    if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
-    } else if (sortBy === "category") {
-      return a.category.localeCompare(b.category);
-    }
-    return 0;
-  });
-
   return (
-    <div>
-      <h2>Sort by:</h2>
-      <button 
-        onClick={() => setSortBy("name")}
-        style={{ backgroundColor: sortBy === "name" ? "#d3d3d3" : "white" }}
-      >
-        Name
-      </button>
-      <button 
-        onClick={() => setSortBy("category")}
-        style={{ backgroundColor: sortBy === "category" ? "#d3d3d3" : "white" }}
-      >
-        Category
-      </button>
-
-      <ul>
-        {sortedItems.map((item) => (
-          <Item key={item.id} {...item} onSelect={() => onItemSelect(item.name)} />
-        ))}
-      </ul>
+    <div className="w-1/4">
+      <div id="window" className="flex flex-col ">
+        <h1 id="title">Shopping List</h1>
+        <div id="window-i-nb">
+          <div className="w-full h-full grid grid-cols-4 grid-rows-4 grid-flow-row">
+            {items
+              .sort((a, b) => {
+                if (a[sortBy] < b[sortBy]) {
+                  return -1;
+                }
+                if (a[sortBy] > b[sortBy]) {
+                  return 1;
+                }
+                return 0;
+              })
+              .map((item, index) => {
+                return <Item item={item} onSelect={onItemSelect} key={index} />;
+              })}
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};

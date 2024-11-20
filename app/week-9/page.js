@@ -1,39 +1,58 @@
 "use client";
+import { useState } from "react";
 
-import { useUserAuth } from "./week-9/_utils/auth-context";
-import { useRouter } from "next/navigation";
-import { useState } from 'react';
-import NewItem from './week-9/shopping-list/new-item';  // Import NewItem component
-import ItemList from './week-9/shopping-list/item-list'; // Import ItemList component
-import MealIdeas from './week-9/shopping-list/meal-ideas'; // Import MealIdeas component
-import itemsData from './week-9/shopping-list/items.json'; // Import items data
+import { useUserAuth } from "app\week-9\_utils\auth-context";
+import { ItemList } from "app\week-9\shopping-list\item-list";
+import MealIdeas from "app\week-9\shopping-list\meal-ideas";
+import { NewItem } from "app\week-9\shopping-list\new-item";
+import Items from "app\week-9\shopping-list\items.json";
 
 export default function Page() {
-  const [items, setItems] = useState(itemsData);
-  const [selectedItemName, setSelectedItemName] = useState('');
+  const [itemList, setItemList] = useState(Items);
+  const [selectedItemName, setSelectedItemName] = useState("");
 
-  const handleAddItem = (newItem) => {
-    setItems((prevItems) => [...prevItems, { ...newItem, id: Math.random().toString(36).substr(2, 9) }]); // Adding unique id
+  function handleItemSelect(e) {
+    setSelectedItemName(emojiRemover(e.name).split(",")[0]);
+  }
+
+  const emojiRemover = (string) => {
+    return string.replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n]/gu, "");
   };
 
-  const handleItemSelect = (itemName) => {
-    // Clean up the item name for the API call
-    const cleanItemName = itemName.split(',')[0].trim().replace(/[🥛🍞🥚🍌🥦🍗🍝🧻🧼]/g, ''); 
-    setSelectedItemName(cleanItemName);
+  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+
+  const SignIn = async () => {
+    await gitHubSignIn();
   };
+
+  const SignOut = async () => {
+    await firebaseSignOut();
+  };
+
+  function Login({ children, user }) {
+    return (
+      <>
+        {user ? (
+          <>{children}</>
+        ) : (
+          <>
+            <div onClick={SignIn}> Login</div>
+          </>
+        )}
+      </>
+    );
+  }
 
   return (
-    <main>
-      <h1>Shopping List</h1>
-      <NewItem onAddItem={handleAddItem} />
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <ItemList items={items} onItemSelect={handleItemSelect} />
-        <MealIdeas ingredient={selectedItemName} />
-      </div>
-    </main>
+    
+      <Login user={user}>
+        <div className="flex flex-row w-[90%] items-center justify-around">
+          <ItemList items={itemList} onItemSelect={handleItemSelect} />
+          <MealIdeas ingredient={selectedItemName} />
+          <NewItem getter={itemList} setter={setItemList} />
+        </div>
+        <div onClick={SignOut}> Signout</div>
+      </Login>
+    
   );
 }
-
-
-
-  

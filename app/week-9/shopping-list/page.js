@@ -1,34 +1,29 @@
 "use client";
-import { useUserAuth } from "./week-9/_utils/auth-context";
-import { useRouter } from "next/navigation";
-import { useState } from 'react';
-import NewItem from 'app\week-9\new-item';  // Import NewItem component
-import ItemList from 'app\week-9\item-list'; // Import ItemList component
-import MealIdeas from 'app\week-9\meal-ideas'; // Import MealIdeas component
-import itemsData from 'app\week-9\items.json'; // Import items data
+import { ItemList } from "app\week-9\shopping-list\item-list";
+import { NewItem } from "app\week-9\shopping-list\new-item";
+import Items from "app\week-9\shopping-list\items.json";
+import { useState } from "react";
+import MealIdeas from "app\week-9\shopping-list\meal-ideas";
 
 export default function Page() {
-  const [items, setItems] = useState(itemsData);
-  const [selectedItemName, setSelectedItemName] = useState('');
+  const [itemList, setItemList] = useState(Items);
+  const [selectedItemName, setSelectedItemName] = useState("");
 
-  const handleAddItem = (newItem) => {
-    setItems((prevItems) => [...prevItems, { ...newItem, id: Math.random().toString(36).substr(2, 9) }]); // Adding unique id
-  };
+  function handleItemSelect(e) {
+    setSelectedItemName(emojiRemover(e.name).split(",")[0]);
+  }
 
-  const handleItemSelect = (itemName) => {
-    // Clean up the item name for the API call
-    const cleanItemName = itemName.split(',')[0].trim().replace(/[🥛🍞🥚🍌🥦🍗🍝🧻🧼]/g, ''); 
-    setSelectedItemName(cleanItemName);
+  const emojiRemover = (string) => {
+    return string.replace(/[^\p{L}\p{N}\p{P}\p{Z}^$\n]/gu, "");
   };
 
   return (
-    <main>
-      <h1>Shopping List</h1>
-      <NewItem onAddItem={handleAddItem} />
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <ItemList items={items} onItemSelect={handleItemSelect} />
+    
+      <div className="flex flex-row w-[90%] items-center justify-around">
+        <ItemList items={itemList} onItemSelect={handleItemSelect} />
         <MealIdeas ingredient={selectedItemName} />
+        <NewItem getter={itemList} setter={setItemList} />
       </div>
-    </main>
-  );
-}
+    
+  )
+};
