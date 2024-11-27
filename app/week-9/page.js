@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-
-import { useUserAuth } from "app\week-9\_utils\auth-context";
-import { ItemList } from "app\week-9\shopping-list\item-list";
-import MealIdeas from "app\week-9\shopping-list\meal-ideas";
-import { NewItem } from "app\week-9\shopping-list\new-item";
-import Items from "app\week-9\shopping-list\items.json";
+import { useUserAuth } from "./_utils/auth-context";
+import { ItemList } from "./shopping-list/item-list";
+import MealIdeas from "./shopping-list/meal-ideas";
+import { NewItem } from "./shopping-list/new-item";
+import Items from "./shopping-list/items.json";
 
 export default function Page() {
   const [itemList, setItemList] = useState(Items);
