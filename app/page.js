@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 export default function Home() {
   return (
     <div id="border" className="flex h-full w-full justify-center items-center">
@@ -23,7 +22,7 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
 
 export function Week(props) {
   return (
@@ -31,4 +30,4 @@ export function Week(props) {
       Week-{props.num}
     </Link>
   );
-}
+};

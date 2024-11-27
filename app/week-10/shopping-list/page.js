@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ItemList } from "./item-list";
-import { NewItem } from "./new-item";
-import MealIdeas from "./meal-ideas";
+import { ItemList } from "./week-10/shopping-list/item-list";
+import { NewItem } from "./week-10/shopping-list/new-item";
+import MealIdeas from "./week-10/shopping-list/meal-ideas";
 import { getItems, addItem } from "../_services/shopping-list-service";
 import { useUserAuth } from "../_utils/auth-context";
 
