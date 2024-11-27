@@ -4,11 +4,11 @@ import { useUserAuth } from "./_utils/auth-context";
 import { ItemList } from "./shopping-list/item-list";
 import MealIdeas from "./shopping-list/meal-ideas";
 import { NewItem } from "./shopping-list/new-item";
-import Items from "./shopping-list/items.json";
+import itemsData from './shopping-list/items.json'; 
 
 export default function Page() {
-  const [itemList, setItemList] = useState(Items);
-  const [selectedItemName, setSelectedItemName] = useState("");
+  const [itemList, setItemList] = useState(itemsData);
+  const [selectedItemName, setSelectedItemName] = useState(" ");
 
   function handleItemSelect(e) {
     setSelectedItemName(emojiRemover(e.name).split(",")[0]);
@@ -34,24 +34,20 @@ export default function Page() {
         {user ? (
           <>{children}</>
         ) : (
-          <>
-            <div onClick={SignIn}> Login</div>
-          </>
+          <div onClick={SignIn}> Login</div>
         )}
       </>
     );
   }
 
   return (
-    
-      <Login user={user}>
-        <div className="flex flex-row w-[90%] items-center justify-around">
-          <ItemList items={itemList} onItemSelect={handleItemSelect} />
-          <MealIdeas ingredient={selectedItemName} />
-          <NewItem getter={itemList} setter={setItemList} />
-        </div>
-        <div onClick={SignOut}> Signout</div>
-      </Login>
-    
+    <Login user={user}>
+      <div className="flex flex-row w-[90%] items-center justify-around">
+        <ItemList items={itemList} onItemSelect={handleItemSelect} />
+        <MealIdeas ingredient={selectedItemName} />
+        <NewItem getter={itemList} setter={setItemList} />
+      </div>
+      <div onClick={SignOut}> Signout</div>
+    </Login>
   );
-}
+};

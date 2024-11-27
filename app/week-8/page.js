@@ -1,9 +1,9 @@
 "use client";  // Required for React hooks
 import { useState } from 'react';
-import NewItem from 'app\week-8\new-item';  // Import NewItem component
-import ItemList from 'app\week-8\item-list'; // Import ItemList component
-import MealIdeas from 'app\week-8\meal-ideas'; // Import MealIdeas component
-import itemsData from 'app\week-8\items.json'; // Import items data
+import NewItem from './new-item';  // Import NewItem component
+import ItemList from './item-list'; // Import ItemList component
+import MealIdeas from './meal-ideas'; // Import MealIdeas component
+import itemsData from './items.json'; // Import items data
 
 export default function Page() {
   const [items, setItems] = useState(itemsData);
