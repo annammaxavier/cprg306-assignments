@@ -1,5 +1,7 @@
+"use client";
+import { useState } from "react";
 export function NewItem({ getter, setter, handleAddItem }) {
-    const [newItem, setNewItem] = useState("");
+    const [newItem, setNewItem] = useState(" ");
   
     const addItem = () => {
       const item = { name: newItem, quantity: 1, category: "other" };

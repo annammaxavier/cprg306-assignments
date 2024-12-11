@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ItemList } from "./week-10/shopping-list/item-list";
-import { NewItem } from "./week-10/shopping-list/new-item";
-import MealIdeas from "./week-10/shopping-list/meal-ideas";
+import { ItemList } from "./item-list";
+import { NewItem } from "./new-item";
+import MealIdeas from "./meal-ideas";
 import { getItems, addItem } from "../_services/shopping-list-service";
-import { useUserAuth } from "../_utils/auth-context";
+import { useUserAuth } from "../_utils/auth_context"; // import from _utils
 
 export default function Page() {
   const { user } = useUserAuth();
@@ -23,9 +23,9 @@ export default function Page() {
     }
   }, [user]);
 
-  const handleAddItem = async (item) => {
-    const newItemId = await addItem(user.uid, item);
-    setItemList([...itemList, { id: newItemId, ...item }]);
+  const handleAddItem = async (items) => {
+    const newItemId = await addItem(user.uid, items);
+    setItemList([...itemList, { id: newItemId, ...items }]);
   };
 
   const handleItemSelect = (e) => {

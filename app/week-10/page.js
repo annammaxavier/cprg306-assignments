@@ -1,7 +1,7 @@
 "use client";
 
 
-import { useUserAuth } from "../_utils/auth-context"; // Import authentication context
+import { useUserAuth } from "./_utils/auth_context"; // Import authentication context
 import Link from "next/link";
 
 export default function Page() {
@@ -29,11 +29,11 @@ export default function Page() {
               onClick={SignOut}
             >
               Sign out
-            </button>
+              </button>
             <Link href="/week-10/shopping-list">
-              <a className="block text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+              <button className="block text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition w-full">
                 Continue to your Shopping List
-              </a>
+              </button>
             </Link>
           </>
         ) : (
